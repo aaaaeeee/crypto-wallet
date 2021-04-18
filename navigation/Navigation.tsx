@@ -5,6 +5,8 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import WalletScreen from '../screens/WalletScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import { theme } from '../styles/theme';
+import PortfolioScreen from '../screens/PortfolioScreen';
+import BuySellScreen from '../screens/BuySellScreen';
 const Navigation = () => {
   const Tab = createBottomTabNavigator();
 
@@ -55,14 +57,14 @@ const Navigation = () => {
             backgroundColor: '#0D1B2A',
           },
           labelStyle: {
-            fontSize: 12,
-            fontFamily: 'reqular',
+            fontSize: 14,
+            fontFamily: 'bold',
           },
         }}
       >
         <Tab.Screen name="Wallet" component={WalletScreen} />
-        <Tab.Screen name="Portfolio" component={WalletScreen} />
-        <Tab.Screen name="Buy/Sell" component={WalletScreen} />
+        <Tab.Screen name="Portfolio" component={PortfolioScreen} />
+        <Tab.Screen name="Buy/Sell" component={BuySellScreen} />
         <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>
     </NavigationContainer>

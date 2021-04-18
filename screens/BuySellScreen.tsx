@@ -2,12 +2,12 @@ import React from 'react';
 import Text from '../components/Text';
 import BasicLayout from '../components/BasicLayout';
 
-export const WalletScreen = () => {
+export const BuySellScreen = () => {
   return (
     <BasicLayout>
-      <Text text="Wallet" />
+      <Text text="Buy/Sell" />
     </BasicLayout>
   );
 };
 
-export default WalletScreen;
+export default BuySellScreen;
