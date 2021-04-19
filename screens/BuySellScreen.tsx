@@ -1,11 +1,11 @@
 import React from 'react';
-import Text from '../components/Text';
+import AppText from '../components/AppText';
 import BasicLayout from '../components/BasicLayout';
 
 export const BuySellScreen = () => {
   return (
     <BasicLayout>
-      <Text text="Buy/Sell" />
+      <AppText text="Buy/Sell" />
     </BasicLayout>
   );
 };

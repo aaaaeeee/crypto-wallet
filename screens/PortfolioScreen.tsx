@@ -1,11 +1,11 @@
 import React from 'react';
-import Text from '../components/Text';
+import AppText from '../components/AppText';
 import BasicLayout from '../components/BasicLayout';
 
 export const PortfolioScreen = () => {
   return (
     <BasicLayout>
-      <Text text="Portfolio" />
+      <AppText text="Portfolio" />
     </BasicLayout>
   );
 };

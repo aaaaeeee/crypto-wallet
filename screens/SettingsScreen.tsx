@@ -1,11 +1,11 @@
 import React from 'react';
-import Text from '../components/Text';
+import AppText from '../components/AppText';
 import BasicLayout from '../components/BasicLayout';
 
 const SettingsScreen = () => {
   return (
     <BasicLayout>
-      <Text text="Settings" />
+      <AppText text="Settings" />
     </BasicLayout>
   );
 };

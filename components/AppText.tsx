@@ -11,8 +11,8 @@ const StyledText = styled(DefaultText)`
   font-size: 24px;
 `;
 
-const Text = ({ text }: Props) => {
+const AppText = ({ text }: Props) => {
   return <StyledText>{text}</StyledText>;
 };
 
-export default Text;
+export default AppText;
