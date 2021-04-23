@@ -1,36 +1,58 @@
 import React, { createContext, useState } from 'react';
+import { myCoins } from './mockData';
 
-type coinData = {
-  bitcoin: {
-    usd: number;
+type CoinData = {
+  name: string;
+  values: {
+    usd?: number;
+    usd_24h_change?: number;
+    usd_24h_vol?: number;
   };
 };
 
+type Coins = {
+  id: string;
+  name: string;
+  purchaseDate: string;
+  purchaseAmount: number;
+  symbol: string;
+  coinPriceOnPurchace: number;
+};
+
+type Wallet = {
+  name: string;
+  coins: Coins[];
+};
+
 type AppContextState = {
-  history: string[];
   fetchCoinData: () => Promise<void>;
-  coinData: coinData;
+  coinData: CoinData[];
+  wallet: Wallet;
 };
 
 const initialState: AppContextState = {
-  history: ['yksi', 'kaksi'],
   fetchCoinData: async () => {},
-  coinData: { bitcoin: { usd: 0 } },
+  coinData: [],
+  wallet: { name: 'MyWallet', coins: myCoins },
 };
 export const AppContext = createContext<AppContextState>(initialState);
 
 const AppProvider: React.FC = ({ children }) => {
-  const [history, setHistory] = useState<string[]>(initialState.history);
-  const [coinData, setCoinData] = useState<coinData>(initialState.coinData);
+  const [coinData, setCoinData] = useState<any>(initialState.coinData);
+  const [wallet, setWallet] = useState<Wallet>(initialState.wallet);
   const fetchCoinData = async () => {
     const response = await fetch(
-      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
+      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd&include_24hr_vol=true&include_24hr_change=true'
     );
     const json = await response.json();
-    setCoinData(json);
+    const temp = [];
+    for (const [key, value] of Object.entries(json)) {
+      temp.push({ name: key, values: value });
+    }
+    setCoinData(temp);
   };
   return (
-    <AppContext.Provider value={{ history, fetchCoinData, coinData }}>
+    <AppContext.Provider value={{ fetchCoinData, coinData, wallet }}>
       {children}
     </AppContext.Provider>
   );

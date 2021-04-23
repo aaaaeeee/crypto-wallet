@@ -6,15 +6,20 @@ import { AppContext } from '../context/appContext';
 
 export const WalletScreen = () => {
   const { fetchCoinData, coinData } = useContext(AppContext);
+
   useEffect(() => {
     fetchCoinData();
   }, []);
+
   return (
     <BasicLayout>
       <AppText text="Wallet" />
-      <Text style={{ color: 'white' }}>
-        Bitcoin value: {coinData.bitcoin.usd} USD
-      </Text>
+      {coinData.map((coin) => (
+        <>
+          <Text style={{ color: 'white' }}>{coin.name.toUpperCase()}</Text>
+          <Text style={{ color: 'white' }}>{coin.values.usd}</Text>
+        </>
+      ))}
     </BasicLayout>
   );
 };
