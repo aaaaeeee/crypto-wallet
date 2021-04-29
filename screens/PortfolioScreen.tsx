@@ -86,7 +86,6 @@ export const PortfolioScreen = () => {
           value,
           svg: {
               fill: GRAPH_COLORS[index],
-              onPress: () => console.log('press', index),
           },
           key: `pie-${index}`,
       }))
