@@ -1,11 +1,11 @@
 import React, { useEffect, useContext } from 'react';
-import { Text, View } from 'react-native';
-import AppText from '../components/AppText';
 import BasicLayout from '../components/BasicLayout';
+import CoinAccordion from '../components/CoinAccordion';
+import WalletHeader from '../components/WalletHeader';
 import { AppContext } from '../context/appContext';
-
+import { ScrollView } from 'react-native';
 export const WalletScreen = () => {
-  const { fetchCoinData, coinData } = useContext(AppContext);
+  const { fetchCoinData, coinData, wallet } = useContext(AppContext);
 
   useEffect(() => {
     fetchCoinData();
@@ -13,13 +13,12 @@ export const WalletScreen = () => {
 
   return (
     <BasicLayout>
-      <AppText text="Wallet" />
-      {coinData.map((coin) => (
-        <View key={coin.name}>
-          <Text style={{ color: 'white' }}>{coin.name.toUpperCase()}</Text>
-          <Text style={{ color: 'white' }}>{coin.values.usd}</Text>
-        </View>
-      ))}
+      <ScrollView>
+        <WalletHeader />
+        {coinData.map((coin) => (
+          <CoinAccordion coin={coin} key={coin.name} />
+        ))}
+      </ScrollView>
     </BasicLayout>
   );
 };
