@@ -1,16 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, Dimensions } from "react-native";
+import React, { useContext, useEffect } from 'react';
+import { View, TouchableOpacity, Text, Dimensions, ScrollView } from "react-native";
 import { PieChart } from 'react-native-svg-charts';
 import styled from 'styled-components/native';
 
 import BasicLayout from '../components/BasicLayout';
+import PortfolioLineChart from '../components/PortfolioLineChart';
 import { AppContext, CoinData } from '../context/appContext';
 import { theme } from '../styles/theme';
 
 const SumText = styled(Text)`
   position: absolute;
   left: 100px;
-  top: 120px;
+  top: 156px;
   textAlign: center;
   font-family: regular;
   font-style: normal;
@@ -24,7 +25,7 @@ const DailyChangeContainer = styled(View)`
   flex-direction: row;
   position: absolute;
   left: 120px;
-  top: 170px;
+  top: 206px;
 `;
 
 const DailyChangeTitle = styled(Text)`
@@ -46,56 +47,11 @@ const DailyChangeText = styled(Text)`
   color: ${theme.valueGreen};
 `;
 
-const ListContainer = styled(View)`
-  padding-top: 44px;
+const ListContainer = styled(ScrollView)`
+  margin-top: 44px;
 `;
 
-const ListRow = styled(View)`
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding-top: 16px;
-`;
-
-const Data = styled(Text)`
-  padding-left: 12px;
-  font-family: regular;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 18px;
-  color: ${theme.mainLightest};
-`;
-
-const ProgressBar = styled(View)`
-  position: relative;
-  margin-left: 22px;
-  width: 225px;
-  height: 6px;
-  border-radius: 3px;
-  background: ${theme.mainLightest};
-  z-index: 1;
-`;
-
-
-const Point = styled(View)<{color: string}>`
-  border-radius: 10px;
-  width: 8px;
-  height: 8px;
-  background: ${props => props.color};
-`;
-
-const ProgressFill = styled(View)<{color: string; amount: number}>`
-  position: absolute;
-  left: 0px;
-  top: 0px;
-  width: ${props => props.amount * 2.25}px;
-  height: 6px;
-  background: ${props => props.color};
-  z-index: 2;
-`;
-
-const GRAPH_COLORS = ['#383874', '#70DDFF', '#AFFF70', '#FC70FF'];
+const GRAPH_COLORS = ['#8678FF', '#FF708B','#FFBA69', '#0CBABA', '#383874', '#70DDFF', '#AFFF70', '#FC70FF'];
 
 export const PortfolioScreen = () => {
   const { fetchCoinData, coinData, wallet } = useContext(AppContext);
@@ -124,8 +80,6 @@ export const PortfolioScreen = () => {
     return coin.coinAmount * currentValue;
   });
 
-  console.log('AAAA', todaysData);
-
   const pieData = graphData
       .filter((value) => value > 0)
       .map((value, index) => ({
@@ -136,10 +90,9 @@ export const PortfolioScreen = () => {
           },
           key: `pie-${index}`,
       }))
-  
   return (
     <BasicLayout>
-      <PieChart style={{ height: deviceWidth - 100, marginTop: 12 }} data={pieData} innerRadius="90%" />
+      <PieChart style={{ height: deviceWidth - 100, marginTop: 48 }} data={pieData} innerRadius="90%" />
       <SumText>
           ${todaySum}
       </SumText>
@@ -148,18 +101,11 @@ export const PortfolioScreen = () => {
         <DailyChangeText>+{((todaySum - yesterdaySum) / todaySum * 100).toFixed(2)}%</DailyChangeText>
         <DailyChangeText>${(todaySum - yesterdaySum).toFixed(0)}</DailyChangeText>
       </DailyChangeContainer>
+
       <ListContainer>
-      {todaysData.map((d, i) => {
-        const percentage = parseFloat((d.currentPrice / todaySum * 100).toFixed(2));
-        return (
-          <ListRow>
-            <Point color={GRAPH_COLORS[i]} />
-            <Data>{d.symbol.toUpperCase()}</Data>
-            <ProgressBar><ProgressFill color={GRAPH_COLORS[i]} amount={percentage} /></ProgressBar>
-            <Data>{percentage}%</Data>
-          </ListRow>
-        )
-      })}
+        {todaysData.map((d, i) => (
+          <PortfolioLineChart data={d} currentColor={GRAPH_COLORS[i]} todaySum={todaySum} />
+        ))}
       </ListContainer>
     </BasicLayout>
   );
