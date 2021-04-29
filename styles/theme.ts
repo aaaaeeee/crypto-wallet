@@ -14,4 +14,8 @@ export const theme: Theme = {
   mainMiddle: '#415A77',
   accentBlue:'#006ADD',
   valueRed: '#D04242',
+  graphLilaDark: '#383874',
+  graphBlue: '#70DDFF',
+  graphLime: '#AFFF70',
+  graphPink: '#FC70FF',
 };
