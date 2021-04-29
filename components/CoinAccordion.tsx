@@ -6,7 +6,17 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { AppContext, CoinData } from '../context/appContext';
 import { theme as themecolors } from '../styles/theme';
 import { Line, SvgXml } from 'react-native-svg';
-import { bitcoin, ethereum } from './icons';
+import {
+  bitcoin,
+  ethereum,
+  cardano,
+  decentr,
+  tether,
+  nexo,
+  vechain,
+  binancecoin,
+  avalance,
+} from './icons';
 import {
   Chart,
   VerticalAxis,
@@ -78,26 +88,41 @@ const CoinAccordion = ({ coin }: Props) => {
     });
     setHistory(historyData);
   };
+
+  const chooseIcon = (name: string) => {
+    switch (name) {
+      case 'bitcoin':
+        return bitcoin;
+      case 'ethereum':
+        return ethereum;
+      case 'cardano':
+        return cardano;
+      case 'decentr':
+        return decentr;
+      case 'tether':
+        return tether;
+      case 'nexo':
+        return nexo;
+      case 'vechain':
+        return vechain;
+      case 'binancecoin':
+        return binancecoin;
+      case 'avalance-2':
+        return avalance;
+      default:
+        return bitcoin;
+    }
+  };
   return (
     <Container>
       <Header onPress={() => setOpen(!open)}>
         <IconContainer>
-          {coin.name === 'ethereum' && (
-            <SvgXml
-              height="30"
-              width="30"
-              xml={ethereum}
-              style={{ marginRight: 12 }}
-            />
-          )}
-          {coin.name === 'bitcoin' && (
-            <SvgXml
-              height="30"
-              width="30"
-              xml={bitcoin}
-              style={{ marginRight: 12 }}
-            />
-          )}
+          <SvgXml
+            height="30"
+            width="30"
+            xml={chooseIcon(coin.name)}
+            style={{ marginRight: 12 }}
+          />
         </IconContainer>
         <LeftContainer>
           <AppText text={currentCoin?.name} bold />
@@ -136,8 +161,8 @@ const CoinAccordion = ({ coin }: Props) => {
             smoothing="bezier"
             theme={{
               gradient: {
-                from: { color: '#0099FF' },
-                to: { color: '#0099FF', opacity: 0.2 },
+                from: { color: '#1E3B70' },
+                to: { color: '#29539B', opacity: 0.2 },
               },
             }}
           />

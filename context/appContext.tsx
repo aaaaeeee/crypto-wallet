@@ -43,7 +43,7 @@ const AppProvider: React.FC = ({ children }) => {
   const [wallet, setWallet] = useState<Wallet>(initialState.wallet);
   const fetchCoinData = async () => {
     const response = await fetch(
-      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,cardano,dec,tether,nexo,vechain,binancecoin&vs_currencies=usd&include_24hr_vol=true&include_24hr_change=true'
+      'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,cardano,decentr,tether,nexo,vechain,binancecoin&vs_currencies=usd&include_24hr_vol=true&include_24hr_change=true'
     );
     const json = await response.json();
     const temp = [];
