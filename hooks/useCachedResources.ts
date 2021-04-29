@@ -16,6 +16,7 @@ export default function useCachedResources() {
           'regular': require('../assets/fonts/Lato-Regular.ttf'),
           'bold': require('../assets/fonts/Lato-Bold.ttf'),
         });
+        
       } catch (e) {
         // We might want to provide this error information to an error reporting service
         console.warn(e);

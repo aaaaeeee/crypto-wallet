@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { AppContext, CoinData } from '../context/appContext';
 import { theme as themecolors } from '../styles/theme';
-import { Line, SvgXml } from 'react-native-svg';
+import { SvgXml } from 'react-native-svg';
 import {
   bitcoin,
   ethereum,
@@ -25,15 +25,20 @@ import {
 } from 'react-native-responsive-linechart';
 type Props = {
   coin: CoinData;
+  screen?: string;
 };
 
 type StyleProps = {
   open?: boolean;
+  buySell?: boolean;
 };
-const Container = styled(View)`
-  margin-bottom: 10px;
+const Container = styled(View)<StyleProps>`
   padding: 16px;
+  margin: ${({ buySell }) => (buySell ? '0px' : '8px 16px')};
   background-color: ${themecolors.mainDarkest};
+  border-radius: 10px;
+  border-bottom-color: ${themecolors.mainDark};
+  border-bottom-width: ${({ buySell }) => (buySell ? '1px' : '0px')};
 `;
 const Header = styled(TouchableOpacity)`
   flex-direction: row;
@@ -64,12 +69,14 @@ const DateButton = styled(TouchableOpacity)`
   justify-content: center;
   padding: 15px;
 `;
-const CoinAccordion = ({ coin }: Props) => {
+
+const CoinAccordion = ({ coin, screen }: Props) => {
   const { wallet } = useContext(AppContext);
   const [open, setOpen] = useState(false);
   const [history, setHistory] = useState([]);
+  const [changePercentage, setChangePercentage] = useState<number>(0);
   const currentCoin = wallet.coins.find((c) => c.id === coin.name);
-
+  const buySell = screen === 'buysell';
   const currentValue = currentCoin
     ? currentCoin.coinAmount * coin.values.usd
     : 0;
@@ -81,7 +88,11 @@ const CoinAccordion = ({ coin }: Props) => {
       `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=${days}&interval=daily`
     );
     const json = await response.json();
-
+    const prices = json.prices;
+    const firstValue = json.prices[0];
+    const lastValue = json.prices[prices.length - 1];
+    const changePercentage = (lastValue[1] / firstValue[1]) * 100;
+    setChangePercentage(changePercentage);
     const historyData = json.prices.map((h) => {
       const data = { x: h[0], y: h[1] };
       return data;
@@ -114,8 +125,8 @@ const CoinAccordion = ({ coin }: Props) => {
     }
   };
   return (
-    <Container>
-      <Header onPress={() => setOpen(!open)}>
+    <Container buySell={buySell}>
+      <Header onPress={() => (buySell ? setOpen(false) : setOpen(!open))}>
         <IconContainer>
           <SvgXml
             height="30"
@@ -143,17 +154,19 @@ const CoinAccordion = ({ coin }: Props) => {
           />
           <AppText currency={currentValue} fontColor="mainLight" />
         </RightContainer>
-        <IconContainer>
-          <FontAwesome5
-            name="caret-down"
-            size={20}
-            color={themecolors.mainLightest}
-          />
-        </IconContainer>
+        {!buySell && (
+          <IconContainer>
+            <FontAwesome5
+              name="caret-down"
+              size={20}
+              color={themecolors.mainLightest}
+            />
+          </IconContainer>
+        )}
       </Header>
       <Body open={open}>
         <Chart
-          style={{ height: 200, width: 360 }}
+          style={{ height: 200 }}
           data={history}
           padding={{ left: 0, bottom: 0, right: 0, top: 20 }}
         >
@@ -196,6 +209,12 @@ const CoinAccordion = ({ coin }: Props) => {
           >
             <AppText text="1y" />
           </DateButton>
+          <View style={{ justifyContent: 'center' }}>
+            <AppText
+              text={`+${changePercentage.toFixed(2)}%`}
+              fontColor="valueGreen"
+            />
+          </View>
         </DateContainer>
       </Body>
     </Container>

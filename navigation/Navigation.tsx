@@ -54,6 +54,7 @@ const Navigation = () => {
           activeTintColor: theme.mainLightest,
           inactiveTintColor: theme.deactiveGrey,
           style: {
+            paddingTop: 8,
             backgroundColor: '#0D1B2A',
           },
           labelStyle: {
