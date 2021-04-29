@@ -12,6 +12,7 @@
     "@react-navigation/bottom-tabs": "^5.11.10",
     "@react-navigation/native": "^5.9.4",
     "expo": "~41.0.0",
+    "expo-linear-gradient": "~9.1.0",
     "expo-splash-screen": "~0.10.2",
     "expo-status-bar": "~1.0.4",
     "native-base": "^2.15.2",
@@ -23,6 +24,7 @@
     "react-native-responsive-linechart": "^5.7.1",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.0.0",
+    "react-native-svg": "12.1.0",
     "react-native-web": "~0.13.12",
     "styled-components": "^5.2.3"
   },

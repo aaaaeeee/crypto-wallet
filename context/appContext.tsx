@@ -1,12 +1,12 @@
 import React, { createContext, useState } from 'react';
 import { myCoins } from './mockData';
 
-type CoinData = {
+export type CoinData = {
   name: string;
   values: {
-    usd?: number;
-    usd_24h_change?: number;
-    usd_24h_vol?: number;
+    usd: number;
+    usd_24h_change: number;
+    usd_24h_vol: number;
   };
 };
 
@@ -17,6 +17,7 @@ type Coins = {
   purchaseAmount: number;
   symbol: string;
   coinPriceOnPurchace: number;
+  coinAmount: number;
 };
 
 type Wallet = {
@@ -51,6 +52,7 @@ const AppProvider: React.FC = ({ children }) => {
     }
     setCoinData(temp);
   };
+
   return (
     <AppContext.Provider value={{ fetchCoinData, coinData, wallet }}>
       {children}

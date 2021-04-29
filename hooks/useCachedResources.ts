@@ -10,7 +10,6 @@ export default function useCachedResources() {
   React.useEffect(() => {
     async function loadResourcesAndDataAsync() {
       try {
-        SplashScreen.preventAutoHideAsync();
         // Load fonts
         await Font.loadAsync({
           ...Ionicons.font,
@@ -22,10 +21,8 @@ export default function useCachedResources() {
         console.warn(e);
       } finally {
         setLoadingComplete(true);
-        SplashScreen.hideAsync();
       }
     }
-
     loadResourcesAndDataAsync();
   }, []);
 
