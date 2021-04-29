@@ -5,8 +5,10 @@ import { theme } from './styles/theme';
 import AppProvider from './context/appContext';
 import Navigation from './navigation/Navigation';
 import useCachedResources from './hooks/useCachedResources';
-
+import * as SplashScreen from 'expo-splash-screen';
 export default function App() {
+  SplashScreen.preventAutoHideAsync();
+  setTimeout(SplashScreen.hideAsync, 5000);
   const isLoadingComplete = useCachedResources();
   if (!isLoadingComplete) {
     return null;
